@@ -1,0 +1,69 @@
+﻿<UserControl
+    x:Class="net_speed_indicator.UserControls.MiniColorPicker"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:net_speed_indicator.UserControls.MiniColorPickerUtils"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d">
+    <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
+        <ListBox
+            Margin="0"
+            Padding="0"
+            ItemsSource="{Binding Colors}">
+            <ListBox.DataContext>
+                <Binding RelativeSource="{RelativeSource AncestorType=UserControl}" />
+            </ListBox.DataContext>
+            <ListBox.ItemContainerStyle>
+                <Style TargetType="ListBoxItem">
+                    <EventSetter Event="PreviewMouseLeftButtonDown" Handler="ListView_Click" />
+                    <Setter Property="Margin" Value="0" />
+                    <Setter Property="Padding" Value="0" />
+                </Style>
+            </ListBox.ItemContainerStyle>
+            <ListBox.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <WrapPanel
+                        MaxWidth="360"
+                        Margin="0"
+                        VerticalAlignment="Top"
+                        Orientation="Horizontal" />
+                </ItemsPanelTemplate>
+            </ListBox.ItemsPanel>
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Border>
+                        <Border.Style>
+                            <Style>
+                                <Setter Property="Border.BorderThickness" Value="3" />
+                                <Setter Property="Border.BorderBrush" Value="Transparent" />
+                                <Style.Triggers>
+                                    <Trigger Property="Border.IsMouseOver" Value="True">
+                                        <Setter Property="Border.BorderBrush" Value="DeepSkyBlue" />
+                                    </Trigger>
+                                    <DataTrigger Value="True">
+                                        <DataTrigger.Binding>
+                                            <MultiBinding>
+                                                <MultiBinding.Converter>
+                                                    <local:EqualityConverter />
+                                                </MultiBinding.Converter>
+                                                <Binding Path="Name" />
+                                                <Binding Path="SelectedColor.Name" RelativeSource="{RelativeSource AncestorType=UserControl}" />
+                                            </MultiBinding>
+                                        </DataTrigger.Binding>
+                                        <Setter Property="Border.BorderThickness" Value="3" />
+                                        <Setter Property="Border.BorderBrush" Value="DeepSkyBlue" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock
+                            Width="32"
+                            Height="32"
+                            Background="{Binding Brush}" />
+                    </Border>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+    </StackPanel>
+</UserControl>

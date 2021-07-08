@@ -1,0 +1,107 @@
+﻿<Window
+    x:Class="net_speed_indicator.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:utils="clr-namespace:net_speed_indicator.Utilities"
+    x:Name="Window_Widget"
+    MinWidth="99"
+    MinHeight="36"
+    AllowsTransparency="True"
+    Loaded="Window_Widget_Loaded"
+    MouseDown="Window_MouseDown"
+    PreviewLostKeyboardFocus="Window_PreviewLostKeyboardFocus"
+    ResizeMode="NoResize"
+    SizeToContent="WidthAndHeight"
+    WindowStartupLocation="Manual"
+    WindowStyle="None"
+    mc:Ignorable="d">
+    <Window.Resources>
+        <utils:BooleanToMenuItemVisibilityConverter x:Key="BooleanToVisibility" />
+        <utils:InvertedBooleanToMenuItemVisibilityConverter x:Key="InvertedBooleanToVisibility" />
+    </Window.Resources>
+    <Window.ContextMenu>
+        <ContextMenu Name="MyContextMenu">
+            <MenuItem
+                Name="MenuItem_AddAnotherWidget"
+                Click="MenuItem_AddAnotherWidget_Click"
+                Header="Add another widget"
+                Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource BooleanToVisibility}}" />
+            <MenuItem
+                Name="MenuItem_AlwaysOnTop"
+                Click="MenuItem_AlwaysOnTop_Click"
+                Header="Always on Top"
+                IsCheckable="True"
+                Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource BooleanToVisibility}}" />
+            <MenuItem
+                Name="MenuItem_Settings"
+                Click="MenuItem_Settings_Click"
+                Header="Settings"
+                Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource BooleanToVisibility}}" />
+            <MenuItem
+                Name="MenuItem_ResetToDefault"
+                Click="MenuItem_ResetToDefault_Click"
+                Header="Reset settings to default"
+                Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource BooleanToVisibility}}" />
+            <MenuItem
+                Name="MenuItem_CloseInstance"
+                Click="MenuItem_CloseInstance_Click"
+                Header="Close this instance"
+                Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource InvertedBooleanToVisibility}}" />
+            <MenuItem
+                Name="MenuItem_Exit"
+                Click="MenuItem_Exit_Click"
+                Header="Exit"
+                Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource BooleanToVisibility}}" />
+        </ContextMenu>
+    </Window.ContextMenu>
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+        <StackPanel
+            x:Name="Panel_Offline"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center">
+            <TextBlock
+                Margin="28,0"
+                FontSize="16"
+                Text="Offline" />
+        </StackPanel>
+        <DockPanel
+            x:Name="Panel_Speeds"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Center">
+            <StackPanel
+                x:Name="Panel_DownloadSpeed"
+                Margin="4,4,4,2"
+                DockPanel.Dock="Top"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="4,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="D:" />
+                <TextBlock
+                    x:Name="TextBlock_DownloadSpeed"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="0.00 KB/s" />
+            </StackPanel>
+            <StackPanel
+                x:Name="Panel_UploadSpeed"
+                Margin="4,2,4,4"
+                DockPanel.Dock="Bottom"
+                Orientation="Horizontal">
+                <TextBlock
+                    Margin="4,0"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="U:" />
+                <TextBlock
+                    x:Name="TextBlock_UploadSpeed"
+                    HorizontalAlignment="Left"
+                    VerticalAlignment="Center"
+                    Text="0.00 KB/s" />
+            </StackPanel>
+        </DockPanel>
+    </StackPanel>
+</Window>

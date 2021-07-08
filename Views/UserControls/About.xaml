@@ -1,0 +1,112 @@
+﻿<UserControl
+    x:Class="net_speed_indicator.Views.UserControls.About"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:net_speed_indicator.Models"
+    d:DataContext="{d:DesignInstance Type=models:SettingsViewModel}"
+    Background="White"
+    mc:Ignorable="d">
+    <Grid Height="460" Margin="4,0,0,0">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*" />
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+            <RowDefinition Height="1*" />
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Grid.Column="0">
+            <TextBlock
+                FontSize="18"
+                FontWeight="Medium"
+                Text="About this app" />
+            <TextBlock
+                Margin="0,12,0,0"
+                FontSize="18"
+                FontWeight="Light"
+                Text="Net Speed Indicator" />
+            <TextBlock
+                Margin="0,12,0,0"
+                FontSize="12"
+                FontWeight="Light"
+                Text="version 1.0" />
+        </StackPanel>
+
+        <StackPanel
+            Grid.Row="1"
+            Grid.Column="0"
+            Margin="0,24,0,0">
+            <TextBlock FontSize="18" Text="Contributions are welcome" />
+            <TextBlock
+                Margin="0,16"
+                FontSize="14"
+                FontWeight="Light">
+                <Hyperlink NavigateUri="https://github.com" RequestNavigate="Hyperlink_RequestNavigate">
+                    Source code is available here on github!
+                </Hyperlink>
+            </TextBlock>
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Grid.Column="0">
+            <TextBlock
+                Margin="0,8,0,8"
+                FontSize="18"
+                Text="Contact developer" />
+            <StackPanel
+                Margin="0,16,0,0"
+                VerticalAlignment="Center"
+                Orientation="Horizontal">
+                <TextBlock
+                    FontSize="14"
+                    FontWeight="Light"
+                    Text="Made with " />
+                <Image
+                    Width="24"
+                    Height="24"
+                    Source="/Resources/hearticon.png" />
+                <TextBlock
+                    FontSize="14"
+                    FontWeight="Light"
+                    Text=" by " />
+                <TextBlock FontSize="14" FontWeight="Light">
+                    <Hyperlink
+                        Name="InstaAccountIdRedirect"
+                        NavigateUri="https://instagram.com"
+                        RequestNavigate="InstaAccountIdRedirect_RequestNavigate">
+                        @mr_app_dev
+                    </Hyperlink>
+                </TextBlock>
+            </StackPanel>
+            <DockPanel
+                Width="300"
+                Margin="0,24,0,0"
+                HorizontalAlignment="Left">
+                <Button
+                    x:Name="Button_GithubAccount"
+                    Width="128"
+                    Height="46"
+                    Click="Button_GithubAccount_Click"
+                    Cursor="Hand"
+                    DockPanel.Dock="Left">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Resources/github.jpg" />
+                    </Button.Background>
+                </Button>
+                <Button
+                    x:Name="Button_InstagramAccount"
+                    Width="128"
+                    Height="46"
+                    Click="Button_InstagramAccount_Click"
+                    Cursor="Hand"
+                    DockPanel.Dock="Right">
+                    <Button.Background>
+                        <ImageBrush ImageSource="/Resources/instagram.png" />
+                    </Button.Background>
+                </Button>
+            </DockPanel>
+        </StackPanel>
+    </Grid>
+</UserControl>

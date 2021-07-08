@@ -1,0 +1,68 @@
+﻿<UserControl
+    x:Class="net_speed_indicator.Views.UserControls.GeneralTab"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:models="clr-namespace:net_speed_indicator.Models"
+    xmlns:utils="clr-namespace:net_speed_indicator.Utilities"
+    d:DataContext="{d:DesignInstance Type=models:SettingsViewModel}"
+    Background="White"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <utils:SpeedUnitConverter x:Key="SpeedUnitConverter" />
+    </UserControl.Resources>
+    <StackPanel
+        Margin="4,0,0,0"
+        VerticalAlignment="Top"
+        Orientation="Vertical">
+        <TextBlock
+            FontSize="18"
+            FontWeight="Medium"
+            Text="General" />
+        <TextBlock
+            Margin="0,12,0,0"
+            FontSize="14"
+            FontWeight="Light"
+            Text="General settings to manage the speed indicator widget" />
+        <mah:ToggleSwitch
+            x:Name="ToggleSwitch_RememberWidgetPosition"
+            Margin="0,24,0,0"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            Header="Remember widget's current position"
+            IsOn="{Binding Path=AppData.RememberWidgetPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <mah:ToggleSwitch
+            x:Name="ToggleSwitch_RunAtStartup"
+            Margin="0,24,0,0"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            Header="Launch this application when the system starts up"
+            IsOn="{Binding Path=AppData.RunAtStartup, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <mah:ToggleSwitch
+            x:Name="ToggleSwitch_AlwaysOnTop"
+            Margin="0,24,0,0"
+            HorizontalAlignment="Stretch"
+            HorizontalContentAlignment="Center"
+            Header="Always show indicator on top of other windows"
+            IsOn="{Binding Path=AppData.AlwaysOnTop, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
+        <StackPanel Margin="0,24,0,0" Orientation="Vertical">
+            <TextBlock FontSize="14" Text="Date speed unit" />
+            <StackPanel Orientation="Vertical">
+                <RadioButton
+                    x:Name="SpeedUnit_BytesPerSecond"
+                    Margin="18,16,0,0"
+                    HorizontalAlignment="Left"
+                    Content="KB, MB/s (in Bytes per second)"
+                    IsChecked="{Binding Path=AppData.SpeedUnit, Converter={StaticResource SpeedUnitConverter}, ConverterParameter=BytesPerSecond}" />
+                <RadioButton
+                    x:Name="SpeedUnit_BitsPerSecond"
+                    Margin="18,16,0,0"
+                    HorizontalAlignment="Left"
+                    Content="kb, mb/s (in bits per second)"
+                    IsChecked="{Binding Path=AppData.SpeedUnit, Converter={StaticResource SpeedUnitConverter}, ConverterParameter=BitsPerSecond}" />
+            </StackPanel>
+        </StackPanel>
+    </StackPanel>
+</UserControl>
