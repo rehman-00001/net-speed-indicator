@@ -70,9 +70,9 @@ namespace net_speed_indicator
         /// <returns></returns>
         public static readonly string AppName = "Net Speed Indicator";
         public static readonly SettingsTab InitialTab = SettingsTab.General;
-        public static readonly string RepositoryUrl = "https://github.com/rehman-00001/"; // TODO: to be updated
-        public static readonly string GithubAccountUrl = "https://github.com/rehman-00001/"; // TODO: to be updated
-        public static readonly string InstagramAccountUrl = "https://github.com/rehman-00001/"; // TODO: to be updated
+        public static readonly string RepositoryUrl = "https://github.com/rehman-00001/net-speed-indicator";
+        public static readonly string GithubAccountUrl = "https://github.com/rehman-00001/";
+        public static readonly string InstagramAccountUrl = "https://www.instagram.com/mr_app_dev_/";
         public static readonly DataSpeedOption[] DataSpeedOptions = new DataSpeedOption[] {
             new DataSpeedOption(0, "Both Uploads & Downloads"),
             new DataSpeedOption(1, "Uploads only"),

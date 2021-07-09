@@ -68,8 +68,8 @@
                 Header="Reset settings to default" />
             <MenuItem
                 Name="MenuItem_Exit"
-                Click="MenuItem_Exit_Click"
-                Header="Exit" />
+                Click="MenuItem_Minimize_Click"
+                Header="Hide Indicator" />
         </ContextMenu>
     </Window.ContextMenu>
 
@@ -78,12 +78,17 @@
         <tb:TaskbarIcon
             x:Name="myNotifyIcon"
             IconSource="/Resources/speed.ico"
-            MenuActivation="LeftOrRightClick"
+            LeftClickCommand="{Binding Path=TrayIcon_LeftClickCommand}"
+            MenuActivation="RightClick"
             PopupActivation="DoubleClick"
             ToolTipText="Net speed indicator"
             Visibility="Visible">
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
+                    <MenuItem
+                        Name="TaskBar_MenuItem_ShowHideWidget"
+                        Click="TaskBar_MenuItem_ShowHideWidget_Click"
+                        Header="Hide Indicator" />
                     <MenuItem
                         Name="TaskBar_MenuItem_AlwaysOnTop"
                         Click="MenuItem_AlwaysOnTop_Click"

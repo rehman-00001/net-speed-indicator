@@ -22,16 +22,27 @@
                 FontSize="18"
                 FontWeight="Medium"
                 Text="About this app" />
-            <TextBlock
-                Margin="0,12,0,0"
-                FontSize="18"
-                FontWeight="Light"
-                Text="Net Speed Indicator" />
-            <TextBlock
-                Margin="0,12,0,0"
-                FontSize="14"
-                FontWeight="Light"
-                Text="version 1.0" />
+            <StackPanel Margin="0,8,0,0" Orientation="Horizontal">
+                <StackPanel Margin="0,16,0,0" VerticalAlignment="Center">
+                    <Image
+                        Width="56"
+                        Height="56"
+                        Source="/Resources/speed.ico" />
+                </StackPanel>
+                <StackPanel Margin="24,0,0,0">
+                    <TextBlock
+                        Margin="0,12,0,0"
+                        FontSize="18"
+                        FontWeight="Light"
+                        Text="Net Speed Indicator" />
+                    <TextBlock
+                        Margin="0,12,0,0"
+                        FontSize="14"
+                        FontWeight="Light"
+                        Text="version 1.0" />
+                </StackPanel>
+
+            </StackPanel>
         </StackPanel>
 
         <StackPanel

@@ -39,7 +39,7 @@
             <ComboBox
                 x:Name="ComboBox_NetworkInterfaces"
                 Width="360"
-                Margin="0,6,0,0"
+                Margin="0,12,0,0"
                 DisplayMemberPath="Name"
                 IsEditable="False"
                 IsEnabled="{Binding Path=AppData.AutoSelectInterface, Converter={StaticResource BoolInvert}}"

@@ -3,7 +3,6 @@ using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Windows;
 
 
 namespace net_speed_indicator.Utilities

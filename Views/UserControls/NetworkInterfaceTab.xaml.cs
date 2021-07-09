@@ -1,7 +1,4 @@
-﻿using net_speed_indicator.Models;
-using net_speed_indicator.Utilities;
-using System.Net.NetworkInformation;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace net_speed_indicator.Views.UserControls
 {

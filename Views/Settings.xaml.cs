@@ -5,6 +5,7 @@ using net_speed_indicator.Utilities;
 using ControlzEx.Theming;
 using System.Windows;
 using MahApps.Metro.Controls;
+using iTuner;
 
 namespace net_speed_indicator.Views
 {
@@ -40,6 +41,9 @@ namespace net_speed_indicator.Views
             {
                 case nameof(AppData.AppTheme):
                     ApplyAppTheme();
+                    return;
+                case nameof(AppData.AutoSelectInterface):
+                    ApplySelectedNetworkInterface();
                     return;
                 default:
                     break;
@@ -113,6 +117,14 @@ namespace net_speed_indicator.Views
                     ThemeManager.Current.ChangeTheme(this, "Dark.Blue");
                     break;
                 default: break;
+            }
+        }
+        private void ApplySelectedNetworkInterface()
+        {
+            if (AppData.Instance.AutoSelectInterface && NetworkStatus.IsAvailable)
+            {
+                string id = CommonUtils.GetActiveNetworkInterface()?.Id;
+                AppData.Instance.NetworkInterfaceId = id;
             }
         }
     }

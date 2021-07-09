@@ -11,7 +11,6 @@ using net_speed_indicator.Utilities;
 using System.Net.NetworkInformation;
 using System.Diagnostics;
 using iTuner;
-using System.Windows.Controls;
 
 namespace net_speed_indicator
 {
@@ -30,12 +29,14 @@ namespace net_speed_indicator
         private Window SettingsWindow { get; set; }
         public bool IsSystemOnline { get; set; }
         public string NetworkInterfaceName { get; set; }
-        public AppData AppData = AppData.Instance;
-
+        public AppData AppData { get; set; } = AppData.Instance;
+        public SimpleCommand TrayIcon_LeftClickCommand { get; set; }
+        public bool IsWidgetHidden { get; set; } = false;
         public MainWindow()
         {
             InitializeComponent();
             DataContext = this;
+            TrayIcon_LeftClickCommand = new SimpleCommand(() => LaunchWidgetFromTrayIcon());
         }
 
         private void OnAppDataUpdated(object sender, PropertyChangedEventArgs e)
@@ -261,7 +262,29 @@ namespace net_speed_indicator
         {
             SettingsWindow = null;
         }
-
+        private void LaunchWidgetFromTrayIcon()
+        {
+            Show();
+            IsWidgetHidden = false;
+            TaskBar_MenuItem_ShowHideWidget.Header = "Hide Indicator";
+        }
+        private void MenuItem_Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            Hide();
+            IsWidgetHidden = true;
+            TaskBar_MenuItem_ShowHideWidget.Header = "Show Indicator";
+        }
+        private void TaskBar_MenuItem_ShowHideWidget_Click(object sender, RoutedEventArgs e)
+        {
+            if (IsWidgetHidden)
+            {
+                LaunchWidgetFromTrayIcon();
+            }
+            else
+            {
+                MenuItem_Minimize_Click(sender, e);
+            }
+        }
         private void MenuItem_Exit_Click(object sender, RoutedEventArgs e)
         {
             Application.Current.Shutdown();
@@ -331,6 +354,7 @@ namespace net_speed_indicator
             NetworkInterface active = CommonUtils.GetActiveNetworkInterface();
             NetworkInterface selected = CommonUtils.GetInterfaceForId(AppData.NetworkInterfaceId);
             NetworkInterface nInterface = ((!AppData.AutoSelectInterface) && (selected != null)) ? selected : active;
+            AppData.NetworkInterfaceId = nInterface.Id;
             SpeedChecker.NetworkInterface = nInterface;
             SpeedChecker.PreviousBytesReceived = nInterface.GetIPv4Statistics().BytesReceived;
             SpeedChecker.PreviousBytesSent = nInterface.GetIPv4Statistics().BytesSent;
