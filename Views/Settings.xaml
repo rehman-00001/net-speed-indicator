@@ -10,14 +10,27 @@
     Title="Settings"
     MinWidth="800"
     MinHeight="600"
-    ui:TitleBar.ExtendViewIntoTitleBar="True"
     ui:WindowHelper.UseModernWindowStyle="True"
     Loaded="MetroWindow_Loaded"
     ResizeMode="NoResize"
+    ShowIconOnTitleBar="True"
     SizeToContent="WidthAndHeight"
     TitleCharacterCasing="Normal"
     WindowStartupLocation="CenterScreen"
     mc:Ignorable="d">
+    <mah:MetroWindow.IconTemplate>
+        <DataTemplate>
+            <Grid
+                Width="{TemplateBinding Width}"
+                Height="{TemplateBinding Height}"
+                Margin="5"
+                Background="Transparent"
+                RenderOptions.BitmapScalingMode="HighQuality"
+                RenderOptions.EdgeMode="Aliased">
+                <Image Source="/Resources/speed.ico" />
+            </Grid>
+        </DataTemplate>
+    </mah:MetroWindow.IconTemplate>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1*" />

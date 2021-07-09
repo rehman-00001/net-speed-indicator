@@ -6,6 +6,7 @@
     <RootNamespace>net_speed_indicator</RootNamespace>
     <UseWPF>true</UseWPF>
     <StartupObject></StartupObject>
+    <ApplicationIcon>speed.ico</ApplicationIcon>
   </PropertyGroup>
 
   <ItemGroup>
@@ -20,6 +21,16 @@
     <None Remove="Resources\github.jpg" />
     <None Remove="Resources\hearticon.png" />
     <None Remove="Resources\instagram.png" />
+    <None Remove="Resources\speed.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <COMReference Include="{215d64d2-031c-33c7-96e3-61794cd1ee61}">
+      <WrapperTool>tlbimp</WrapperTool>
+      <VersionMinor>4</VersionMinor>
+      <VersionMajor>2</VersionMajor>
+      <Guid>215d64d2-031c-33c7-96e3-61794cd1ee61</Guid>
+    </COMReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -30,16 +41,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="Hardcodet.NotifyIcon.Wpf" Version="1.1.0" />
     <PackageReference Include="ModernWpfUI" Version="0.9.4" />
     <PackageReference Include="ModernWpfUI.MahApps" Version="0.9.4" />
   </ItemGroup>
 
 
   <ItemGroup>
-    <Resource Include="Resources\checkmark.png" />
     <Resource Include="Resources\github.jpg" />
     <Resource Include="Resources\hearticon.png" />
     <Resource Include="Resources\instagram.png" />
+    <Resource Include="Resources\speed.ico">
+      <CopyToOutputDirectory></CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
   <ItemGroup>

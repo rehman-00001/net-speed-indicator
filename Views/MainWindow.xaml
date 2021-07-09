@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:tb="http://www.hardcodet.net/taskbar"
     xmlns:utils="clr-namespace:net_speed_indicator.Utilities"
     x:Name="Window_Widget"
     MinWidth="99"
@@ -21,20 +22,13 @@
     <Window.Resources>
         <utils:BooleanToMenuItemVisibilityConverter x:Key="BooleanToVisibility" />
         <utils:InvertedBooleanToMenuItemVisibilityConverter x:Key="InvertedBooleanToVisibility" />
-    </Window.Resources>
-    <Window.ContextMenu>
-        <ContextMenu Name="MyContextMenu">
-            <MenuItem
-                Name="MenuItem_AddAnotherWidget"
-                Click="MenuItem_AddAnotherWidget_Click"
-                Header="Add another widget"
-                Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource BooleanToVisibility}}" />
+        <ContextMenu x:Key="MyContextMenu">
             <MenuItem
                 Name="MenuItem_AlwaysOnTop"
                 Click="MenuItem_AlwaysOnTop_Click"
                 Header="Always on top"
                 IsCheckable="True"
-                Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource BooleanToVisibility}}" />
+                IsChecked="{Binding Path=AppData.AlwaysOnTop, RelativeSource={RelativeSource AncestorType=Window}}" />
             <MenuItem
                 Name="MenuItem_ChangeNetworkInterface"
                 Click="MenuItem_ChangeNetworkInterface_Click"
@@ -42,29 +36,79 @@
             <MenuItem
                 Name="MenuItem_Settings"
                 Click="MenuItem_Settings_Click"
-                Header="Settings"
-                Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource BooleanToVisibility}}" />
+                Header="Settings" />
             <MenuItem
                 Name="MenuItem_ResetToDefault"
                 Click="MenuItem_ResetToDefault_Click"
-                Header="Reset settings to default"
-                Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource BooleanToVisibility}}" />
-            <MenuItem
-                Name="MenuItem_CloseInstance"
-                Click="MenuItem_CloseInstance_Click"
-                Header="Close this instance"
-                Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource InvertedBooleanToVisibility}}" />
+                Header="Reset settings to default" />
             <MenuItem
                 Name="MenuItem_Exit"
                 Click="MenuItem_Exit_Click"
-                Header="Exit"
-                Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource BooleanToVisibility}}" />
+                Header="Exit" />
+        </ContextMenu>
+    </Window.Resources>
+    <Window.ContextMenu>
+        <ContextMenu Name="MyContextMenu">
+            <MenuItem
+                Name="MenuItem_AlwaysOnTop"
+                Click="MenuItem_AlwaysOnTop_Click"
+                Header="Always on top"
+                IsCheckable="True" />
+            <MenuItem
+                Name="MenuItem_ChangeNetworkInterface"
+                Click="MenuItem_ChangeNetworkInterface_Click"
+                Header="Change network interface" />
+            <MenuItem
+                Name="MenuItem_Settings"
+                Click="MenuItem_Settings_Click"
+                Header="Settings" />
+            <MenuItem
+                Name="MenuItem_ResetToDefault"
+                Click="MenuItem_ResetToDefault_Click"
+                Header="Reset settings to default" />
+            <MenuItem
+                Name="MenuItem_Exit"
+                Click="MenuItem_Exit_Click"
+                Header="Exit" />
         </ContextMenu>
     </Window.ContextMenu>
-    <StackPanel
-        HorizontalAlignment="Center"
-        VerticalAlignment="Center"
-        ToolTip="{Binding NetworkInterfaceName}">
+
+    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+
+        <tb:TaskbarIcon
+            x:Name="myNotifyIcon"
+            IconSource="/Resources/speed.ico"
+            MenuActivation="LeftOrRightClick"
+            PopupActivation="DoubleClick"
+            ToolTipText="Net speed indicator"
+            Visibility="Visible">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem
+                        Name="TaskBar_MenuItem_AlwaysOnTop"
+                        Click="MenuItem_AlwaysOnTop_Click"
+                        Header="Always on top"
+                        IsCheckable="True" />
+                    <MenuItem
+                        Name="TaskBar_MenuItem_ChangeNetworkInterface"
+                        Click="MenuItem_ChangeNetworkInterface_Click"
+                        Header="Change network interface" />
+                    <MenuItem
+                        Name="TaskBar_MenuItem_Settings"
+                        Click="MenuItem_Settings_Click"
+                        Header="Settings" />
+                    <MenuItem
+                        Name="TaskBar_MenuItem_ResetToDefault"
+                        Click="MenuItem_ResetToDefault_Click"
+                        Header="Reset settings to default" />
+                    <MenuItem
+                        Name="TaskBar_MenuItem_Exit"
+                        Click="MenuItem_Exit_Click"
+                        Header="Exit" />
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+
         <StackPanel
             x:Name="Panel_Offline"
             HorizontalAlignment="Center"
@@ -82,7 +126,8 @@
                 x:Name="Panel_UploadSpeed"
                 Margin="4,2,4,4"
                 DockPanel.Dock="Top"
-                Orientation="Horizontal">
+                Orientation="Horizontal"
+                ToolTip="Upload Speed">
                 <TextBlock
                     Margin="4,0"
                     HorizontalAlignment="Left"
@@ -98,7 +143,8 @@
                 x:Name="Panel_DownloadSpeed"
                 Margin="4,4,4,2"
                 DockPanel.Dock="Bottom"
-                Orientation="Horizontal">
+                Orientation="Horizontal"
+                ToolTip="Download Speed">
                 <TextBlock
                     Margin="4,0"
                     HorizontalAlignment="Left"

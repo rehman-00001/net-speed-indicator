@@ -11,6 +11,7 @@ using net_speed_indicator.Utilities;
 using System.Net.NetworkInformation;
 using System.Diagnostics;
 using iTuner;
+using System.Windows.Controls;
 
 namespace net_speed_indicator
 {
@@ -21,18 +22,15 @@ namespace net_speed_indicator
     public partial class MainWindow : Window, INetworkSpeedListener
     {
         private readonly object _thisLock = new();
-        private BackgroundWorker BackgroundWorker { get; set; }
-        private Window SettingsWindow { get; set; }
-        private AppData AppData = AppData.Instance;
         private readonly Thickness evenThickness = new(4, 4, 4, 4);
         private readonly Thickness topPanelThickness = new(4, 4, 4, 2);
         private readonly Thickness bottomPanelThickness = new(4, 2, 4, 4);
+        private BackgroundWorker BackgroundWorker { get; set; }
+        private SpeedChecker SpeedChecker { get; set; }
+        private Window SettingsWindow { get; set; }
         public bool IsSystemOnline { get; set; }
         public string NetworkInterfaceName { get; set; }
-        private SpeedChecker SpeedChecker { get; set; }
-
-        public bool IsPrimaryWidget { get; set; } = true;
-        public static int InstanceCount = 1;
+        public AppData AppData = AppData.Instance;
 
         public MainWindow()
         {
@@ -110,7 +108,8 @@ namespace net_speed_indicator
         {
             bool alwaysOnTop = AppData.AlwaysOnTop;
             Window_Widget.Topmost = alwaysOnTop;
-            MenuItem_AlwaysOnTop.IsChecked = alwaysOnTop;            
+            MenuItem_AlwaysOnTop.IsChecked = alwaysOnTop;
+            TaskBar_MenuItem_AlwaysOnTop.IsChecked = alwaysOnTop;
             if (alwaysOnTop)
             {
                 BackgroundWorker = new BackgroundWorker
@@ -131,7 +130,7 @@ namespace net_speed_indicator
         }
         private void ApplyWidgetPosition()
         {
-            if (!AppData.RememberWidgetPosition || !IsPrimaryWidget)
+            if (!AppData.RememberWidgetPosition)
             {
                 return;
             }
@@ -272,23 +271,6 @@ namespace net_speed_indicator
         {
             AppData.AlwaysOnTop = !AppData.AlwaysOnTop;
         }
-        private void MenuItem_AddAnotherWidget_Click(object sender, RoutedEventArgs e)
-        {
-            if (InstanceCount >= 6)
-            {
-                _ = MessageBox.Show("Cannot add more than 6 widgets", "Warning", MessageBoxButton.OK);
-                return;
-            }
-
-            MainWindow mainWindow = new()
-            {
-                IsPrimaryWidget = false,
-                Top = AppData.DEFAULT_POSITION_TOP + (InstanceCount * 24),
-                Left = AppData.DEFAULT_POSITION_LEFT + (InstanceCount * 24)
-            };
-            mainWindow.Show();
-            InstanceCount++;
-        }
         private void MenuItem_ResetToDefault_Click(object sender, RoutedEventArgs e)
         {
             MessageBoxResult result = MessageBox.Show("Are you sure you want to Reset settings to default?", "Confirm Reset", MessageBoxButton.YesNo);
@@ -297,13 +279,6 @@ namespace net_speed_indicator
                 AppData.Instance.ResetAppDataToDefault();
             }
         }
-
-        private void MenuItem_CloseInstance_Click(object sender, RoutedEventArgs e)
-        {
-            InstanceCount--;
-            Close();
-        }
-
         private void Window_Widget_Loaded(object sender, RoutedEventArgs e)
         {
             SpeedChecker = new SpeedChecker();
@@ -326,7 +301,7 @@ namespace net_speed_indicator
 
         private void Widget_LocationChanged(object sender, EventArgs e)
         {
-            if (IsPrimaryWidget && Window_Widget.WindowState == WindowState.Normal)
+            if (Window_Widget.WindowState == WindowState.Normal)
             {
                 AppData.PositionTop = (int)Window_Widget.Top;
                 AppData.PositionLeft = (int)Window_Widget.Left;

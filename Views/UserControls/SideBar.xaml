@@ -42,7 +42,7 @@
             HorizontalContentAlignment="Left"
             BorderThickness="0"
             Click="ToggleBtn_Checked"
-            Content="Network Adapter"
+            Content="Network interface"
             Style="{DynamicResource MahApps.Styles.ToggleButton.ToolBar}" />
         <ToggleButton
             x:Name="ToggleBtn_Theme"

@@ -24,13 +24,13 @@
             Margin="0,12,0,0"
             FontSize="14"
             FontWeight="Light"
-            Text="General settings to manage the speed indicator widget" />
+            Text="General settings to manage the speed indicator" />
         <mah:ToggleSwitch
             x:Name="ToggleSwitch_RememberWidgetPosition"
             Margin="0,24,0,0"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Center"
-            Header="Remember widget's current position"
+            Header="Remember indicator's current position"
             IsOn="{Binding Path=AppData.RememberWidgetPosition, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
         <mah:ToggleSwitch
             x:Name="ToggleSwitch_RunAtStartup"
