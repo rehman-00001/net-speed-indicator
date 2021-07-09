@@ -28,6 +28,7 @@ namespace net_speed_indicator
         private readonly Thickness topPanelThickness = new(4, 4, 4, 2);
         private readonly Thickness bottomPanelThickness = new(4, 2, 4, 4);
         public bool IsSystemOnline { get; set; }
+        public string NetworkInterfaceName { get; set; }
         private SpeedChecker SpeedChecker { get; set; }
 
         public bool IsPrimaryWidget { get; set; } = true;
@@ -53,6 +54,7 @@ namespace net_speed_indicator
                 case nameof(AppData.RememberWidgetPosition): ApplyWidgetPosition(); break;
                 case nameof(AppData.NetworkInterfaceId): ApplySelectedNetworkInterface(); break;
                 case nameof(AppData.AutoSelectInterface): ApplySelectedNetworkInterface(); break;
+                case nameof(AppData.AppTheme): ApplyAppTheme(); break;
                 default: break;
             }
         }
@@ -82,21 +84,22 @@ namespace net_speed_indicator
         private void ApplyDataSpeedOption()
         {
             int id = AppData.DataSpeedToShow;
-            Panel_Speeds.Children.Clear();
             switch (id)
             {
                 case 0: // Both Downloads & Uploads
-                    Panel_Speeds.Children.Add(Panel_DownloadSpeed);
-                    Panel_Speeds.Children.Add(Panel_UploadSpeed);
-                    Panel_DownloadSpeed.Margin = topPanelThickness;
-                    Panel_UploadSpeed.Margin = bottomPanelThickness;
+                    Panel_DownloadSpeed.Visibility = Visibility.Visible;
+                    Panel_UploadSpeed.Visibility = Visibility.Visible;
+                    Panel_DownloadSpeed.Margin = bottomPanelThickness;
+                    Panel_UploadSpeed.Margin = topPanelThickness;
                     break;
                 case 1: // Uploads only
-                    Panel_Speeds.Children.Add(Panel_UploadSpeed);
+                    Panel_DownloadSpeed.Visibility = Visibility.Collapsed;
+                    Panel_UploadSpeed.Visibility = Visibility.Visible;
                     Panel_UploadSpeed.Margin = evenThickness;
                     break;
                 case 2: // Downloads only
-                    Panel_Speeds.Children.Add(Panel_DownloadSpeed);
+                    Panel_DownloadSpeed.Visibility = Visibility.Visible;
+                    Panel_UploadSpeed.Visibility = Visibility.Collapsed;
                     Panel_DownloadSpeed.Margin = evenThickness;
                     break;
                 default:
@@ -107,7 +110,7 @@ namespace net_speed_indicator
         {
             bool alwaysOnTop = AppData.AlwaysOnTop;
             Window_Widget.Topmost = alwaysOnTop;
-            MenuItem_AlwaysOnTop.IsChecked = alwaysOnTop;
+            MenuItem_AlwaysOnTop.IsChecked = alwaysOnTop;            
             if (alwaysOnTop)
             {
                 BackgroundWorker = new BackgroundWorker
@@ -128,7 +131,7 @@ namespace net_speed_indicator
         }
         private void ApplyWidgetPosition()
         {
-            if (!AppData.RememberWidgetPosition)
+            if (!AppData.RememberWidgetPosition || !IsPrimaryWidget)
             {
                 return;
             }
@@ -137,7 +140,7 @@ namespace net_speed_indicator
         }
         private void ApplySelectedNetworkInterface()
         {
-            if (CommonUtils.GetActiveNetworkInterface() != null)
+            if (NetworkStatus.IsAvailable)
             {
                 OnSystemOnline();
             }
@@ -150,13 +153,23 @@ namespace net_speed_indicator
         {
             CommonUtils.RegisterInStartup(AppData.RunAtStartup);
         }
-        protected override void OnLocationChanged(EventArgs e)
+        private void ApplyAppTheme()
         {
-            base.OnLocationChanged(e);
-            if (IsPrimaryWidget && Window_Widget.WindowState == WindowState.Normal)
+            switch (AppData.AppTheme)
             {
-                AppData.PositionTop = (int)Window_Widget.Top;
-                AppData.PositionLeft = (int)Window_Widget.Left;
+                case 0:
+                    SystemAppTheme theme = CommonUtils.GetSystemDefaultAppTheme();
+                    _ = theme == SystemAppTheme.Light
+                        ? ControlzEx.Theming.ThemeManager.Current.ChangeTheme(this, "Light.Blue")
+                        : ControlzEx.Theming.ThemeManager.Current.ChangeTheme(this, "Dark.Blue");
+                    break;
+                case 1:
+                    _ = ControlzEx.Theming.ThemeManager.Current.ChangeTheme(this, "Light.Blue");
+                    break;
+                case 2:
+                    ControlzEx.Theming.ThemeManager.Current.ChangeTheme(this, "Dark.Blue");
+                    break;
+                default: break;
             }
         }
 
@@ -207,6 +220,7 @@ namespace net_speed_indicator
             ApplyWidgetPosition();
             ApplySelectedNetworkInterface();
             ApplyRunAtStartup();
+            /*ApplyAppTheme();*/
         }
 
         void INetworkSpeedListener.OnSpeedCheck(NetworkSpeed networkSpeed)
@@ -260,7 +274,7 @@ namespace net_speed_indicator
         }
         private void MenuItem_AddAnotherWidget_Click(object sender, RoutedEventArgs e)
         {
-            if (InstanceCount == 6)
+            if (InstanceCount >= 6)
             {
                 _ = MessageBox.Show("Cannot add more than 6 widgets", "Warning", MessageBoxButton.OK);
                 return;
@@ -298,6 +312,7 @@ namespace net_speed_indicator
             ApplyAppDataPreferences();
             AppData.PropertyChanged += OnAppDataUpdated;
             NetworkStatus.AvailabilityChanged += OnNetworkAvailabilityChanged;
+            LocationChanged += Widget_LocationChanged;
             IsSystemOnline = NetworkStatus.IsAvailable;
             if (IsSystemOnline)
             {
@@ -308,6 +323,16 @@ namespace net_speed_indicator
                 OnSystemOffline();
             }
         }
+
+        private void Widget_LocationChanged(object sender, EventArgs e)
+        {
+            if (IsPrimaryWidget && Window_Widget.WindowState == WindowState.Normal)
+            {
+                AppData.PositionTop = (int)Window_Widget.Top;
+                AppData.PositionLeft = (int)Window_Widget.Left;
+            }
+        }
+
         private void OnNetworkAvailabilityChanged(object sender, NetworkStatusChangedArgs e)
         {
             IsSystemOnline = NetworkStatus.IsAvailable;
@@ -322,7 +347,6 @@ namespace net_speed_indicator
                 OnSystemOffline();
             }
         }
-
         private void OnSystemOnline()
         {
             if (SpeedChecker == null)
@@ -336,6 +360,7 @@ namespace net_speed_indicator
             SpeedChecker.PreviousBytesReceived = nInterface.GetIPv4Statistics().BytesReceived;
             SpeedChecker.PreviousBytesSent = nInterface.GetIPv4Statistics().BytesSent;
             SpeedChecker.Start();
+            NetworkInterfaceName = nInterface.Name;
 
             _ = Dispatcher.Invoke(new Action(() =>
             {
@@ -344,17 +369,22 @@ namespace net_speed_indicator
                 Panel_Offline.Visibility = Visibility.Collapsed;
             }), null);
         }
-
-
         private void OnSystemOffline()
         {
             SpeedChecker.Stop();
+            NetworkInterfaceName = "No network access";
+
             _ = Dispatcher.Invoke(new Action(() =>
             {
                 Panel_Offline.Visibility = Visibility.Visible;
                 Panel_DownloadSpeed.Visibility = Visibility.Collapsed;
                 Panel_UploadSpeed.Visibility = Visibility.Collapsed;
             }), null);
+        }
+        private void MenuItem_ChangeNetworkInterface_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItem_Settings_Click(sender, e);
+            ((SettingsViewModel)SettingsWindow.DataContext).ActiveTab = SettingsTab.NetworkInterface;
         }
     }
 }

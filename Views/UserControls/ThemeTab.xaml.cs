@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using ControlzEx.Theming;
+using net_speed_indicator.Models;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace net_speed_indicator.Views.UserControls
 {
@@ -21,6 +13,21 @@ namespace net_speed_indicator.Views.UserControls
         public ThemeTab()
         {
             InitializeComponent();
+        }
+
+        private void RadioButton_LightTheme_Checked(object sender, RoutedEventArgs e)
+        {
+            AppData.Instance.AppTheme = 1;
+        }
+
+        private void RadioButton_DarkTheme_Checked(object sender, RoutedEventArgs e)
+        {
+            AppData.Instance.AppTheme = 2;
+        }
+
+        private void RadioButton_SystemTheme_Checked(object sender, RoutedEventArgs e)
+        {
+            AppData.Instance.AppTheme = 0;
         }
     }
 }

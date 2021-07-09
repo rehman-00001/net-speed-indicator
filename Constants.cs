@@ -53,6 +53,12 @@ namespace net_speed_indicator
         About
     }
 
+    public enum SystemAppTheme
+    {
+        Dark,
+        Light
+    }
+
     public static class Constants
     {
         /// <summary>

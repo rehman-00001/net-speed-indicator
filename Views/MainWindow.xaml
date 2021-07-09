@@ -31,9 +31,13 @@
             <MenuItem
                 Name="MenuItem_AlwaysOnTop"
                 Click="MenuItem_AlwaysOnTop_Click"
-                Header="Always on Top"
+                Header="Always on top"
                 IsCheckable="True"
                 Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource BooleanToVisibility}}" />
+            <MenuItem
+                Name="MenuItem_ChangeNetworkInterface"
+                Click="MenuItem_ChangeNetworkInterface_Click"
+                Header="Change network interface" />
             <MenuItem
                 Name="MenuItem_Settings"
                 Click="MenuItem_Settings_Click"
@@ -56,7 +60,10 @@
                 Visibility="{Binding Path=IsPrimaryWidget, Converter={StaticResource BooleanToVisibility}}" />
         </ContextMenu>
     </Window.ContextMenu>
-    <StackPanel HorizontalAlignment="Center" VerticalAlignment="Center">
+    <StackPanel
+        HorizontalAlignment="Center"
+        VerticalAlignment="Center"
+        ToolTip="{Binding NetworkInterfaceName}">
         <StackPanel
             x:Name="Panel_Offline"
             HorizontalAlignment="Center"
@@ -71,33 +78,33 @@
             HorizontalAlignment="Left"
             VerticalAlignment="Center">
             <StackPanel
-                x:Name="Panel_DownloadSpeed"
-                Margin="4,4,4,2"
+                x:Name="Panel_UploadSpeed"
+                Margin="4,2,4,4"
                 DockPanel.Dock="Top"
                 Orientation="Horizontal">
                 <TextBlock
                     Margin="4,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="D:" />
+                    Text="&#9650;" />
                 <TextBlock
-                    x:Name="TextBlock_DownloadSpeed"
+                    x:Name="TextBlock_UploadSpeed"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Text="0.00 KB/s" />
             </StackPanel>
             <StackPanel
-                x:Name="Panel_UploadSpeed"
-                Margin="4,2,4,4"
+                x:Name="Panel_DownloadSpeed"
+                Margin="4,4,4,2"
                 DockPanel.Dock="Bottom"
                 Orientation="Horizontal">
                 <TextBlock
                     Margin="4,0"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
-                    Text="U:" />
+                    Text="&#9660;" />
                 <TextBlock
-                    x:Name="TextBlock_UploadSpeed"
+                    x:Name="TextBlock_DownloadSpeed"
                     HorizontalAlignment="Left"
                     VerticalAlignment="Center"
                     Text="0.00 KB/s" />

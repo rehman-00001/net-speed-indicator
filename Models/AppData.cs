@@ -6,18 +6,19 @@ namespace net_speed_indicator.Models
 {
     public sealed class AppData : ViewModelBase
     {
-        public static bool DEFAULT_ALWAYS_ON_TOP = true;
-        public static bool DEFAULT_RUN_AT_START_UP = true;
-        public static bool DEFAULT_AUTO_SELECT_INTERFACE = true;
-        public static bool DEFAULT_REMEMBER_WIDGET_POSITION = true;
-        public static SpeedUnit DEFAULT_SPEED_UNIT = SpeedUnit.BytesPerSecond;
-        public static int DEFAULT_POSITION_TOP = 48;
-        public static int DEFAULT_POSITION_LEFT = 48;
-        public static string DEFAULT_BG_COLOR = "White";
-        public static string DEFAULT_FG_COLOR = "Black";
-        public static int DEFAULT_OPACITY = 70;
-        public static int DEFAULT_FONT_SIZE = 14;
-        public static int DEFAULT_DATA_SPEED_OPTION = 0;
+        public static readonly bool DEFAULT_ALWAYS_ON_TOP = true;
+        public static readonly bool DEFAULT_RUN_AT_START_UP = true;
+        public static readonly bool DEFAULT_AUTO_SELECT_INTERFACE = true;
+        public static readonly bool DEFAULT_REMEMBER_WIDGET_POSITION = true;
+        public static readonly SpeedUnit DEFAULT_SPEED_UNIT = SpeedUnit.BytesPerSecond;
+        public static readonly int DEFAULT_POSITION_TOP = 48;
+        public static readonly int DEFAULT_POSITION_LEFT = 48;
+        public static readonly string DEFAULT_BG_COLOR = "White";
+        public static readonly string DEFAULT_FG_COLOR = "Black";
+        public static readonly int DEFAULT_OPACITY = 70;
+        public static readonly int DEFAULT_FONT_SIZE = 14;
+        public static readonly int DEFAULT_DATA_SPEED_OPTION = 0;
+        public static readonly int DEFAULT_APP_THEME = 0;
 
         private bool _alwaysOnTop;
         private bool _runAtStartup;
@@ -33,6 +34,7 @@ namespace net_speed_indicator.Models
         private int _opacity;
         private int _fontSize;
         private int _dataSpeedToShow;
+        private int _appTheme; // 0 - System default, 1 - light, 2 - dark
 
         public bool AlwaysOnTop
         {
@@ -99,6 +101,11 @@ namespace net_speed_indicator.Models
             get => _dataSpeedToShow;
             set => SetProperty(ref _dataSpeedToShow, value);
         }
+        public int AppTheme
+        {
+            get => _appTheme;
+            set => SetProperty(ref _appTheme, value);
+        }
         private AppData()
         {
             AlwaysOnTop = Properties.Settings.Default.AlwaysOnTop;
@@ -116,6 +123,7 @@ namespace net_speed_indicator.Models
             FontSize = Properties.Settings.Default.FontSize;
             Opacity = Properties.Settings.Default.Opacity;
             DataSpeedToShow = Properties.Settings.Default.DataSpeedToShow;
+            AppTheme = Properties.Settings.Default.AppTheme;
         }
         public static AppData Instance => Nested.instance;
 
@@ -156,6 +164,7 @@ namespace net_speed_indicator.Models
             Opacity = DEFAULT_OPACITY;
             FontSize = DEFAULT_FONT_SIZE;
             DataSpeedToShow = DEFAULT_DATA_SPEED_OPTION;
+            AppTheme = DEFAULT_APP_THEME;
         }
     }
 }

@@ -3,13 +3,56 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:local="clr-namespace:net_speed_indicator.Views.UserControls"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:utils="clr-namespace:net_speed_indicator.Utilities"
     mc:Ignorable="d">
-    <StackPanel>
+    <UserControl.Resources>
+        <utils:RadioBoolToIntConverter x:Key="RadioBoolToIntConverter" />
+    </UserControl.Resources>
+    <StackPanel Width="360" HorizontalAlignment="Left">
         <TextBlock
+            Margin="4,0,0,0"
             FontSize="18"
             FontWeight="Medium"
             Text="Theme" />
+        <TextBlock
+            Margin="4,12,0,0"
+            FontSize="14"
+            FontWeight="Light"
+            Text="Choose either light or dark theme for this application" />
+        <TextBlock
+            Margin="4,24,0,0"
+            FontSize="16"
+            FontWeight="Regular"
+            Text="Select a theme color" />
+        <StackPanel Margin="72,8,0,0" HorizontalAlignment="Left">
+            <RadioButton
+                x:Name="RadioButton_LightTheme"
+                Margin="0,16,0,0"
+                HorizontalAlignment="Left"
+                Checked="RadioButton_LightTheme_Checked"
+                Content="Light"
+                FontSize="14"
+                GroupName="AppTheme"
+                IsChecked="{Binding Path=AppData.AppTheme, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=1, Mode=OneWay}" />
+            <RadioButton
+                x:Name="RadioButton_DarkTheme"
+                Margin="0,16,0,0"
+                HorizontalAlignment="Left"
+                Checked="RadioButton_DarkTheme_Checked"
+                Content="Dark"
+                FontSize="14"
+                GroupName="AppTheme"
+                IsChecked="{Binding Path=AppData.AppTheme, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=2, Mode=OneWay}" />
+            <RadioButton
+                x:Name="RadioButton_SystemTheme"
+                Margin="0,16,0,0"
+                HorizontalAlignment="Left"
+                Checked="RadioButton_SystemTheme_Checked"
+                Content="System default"
+                FontSize="14"
+                GroupName="AppTheme"
+                IsChecked="{Binding Path=AppData.AppTheme, Converter={StaticResource RadioBoolToIntConverter}, ConverterParameter=0, Mode=OneWay}" />
+        </StackPanel>
     </StackPanel>
 </UserControl>

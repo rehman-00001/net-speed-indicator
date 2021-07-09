@@ -6,7 +6,6 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:models="clr-namespace:net_speed_indicator.Models"
     d:DataContext="{d:DesignInstance Type=models:SettingsViewModel}"
-    Background="White"
     mc:Ignorable="d">
     <Grid Height="460" Margin="4,0,0,0">
         <Grid.ColumnDefinitions>

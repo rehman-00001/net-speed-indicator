@@ -6,7 +6,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:utils="clr-namespace:net_speed_indicator.Utilities"
-    Background="White"
     mc:Ignorable="d">
     <UserControl.Resources>
         <utils:ColorNameToObjectConverter x:Key="ColorConverter" />

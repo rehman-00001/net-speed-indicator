@@ -10,7 +10,6 @@
     d:DataContext="{d:DesignInstance Type=models:SettingsViewModel}"
     d:DesignHeight="450"
     d:DesignWidth="500"
-    Background="White"
     mc:Ignorable="d">
     <UserControl.Resources>
         <utils:BooleanInverter x:Key="BoolInvert" />

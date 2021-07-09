@@ -1,9 +1,13 @@
-﻿using Microsoft.Win32;
+﻿using HandyControl.Data;
+using HandyControl.Themes;
+using HandyControl.Tools;
+using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
-using System.Reflection;
+using System.Windows;
+
 
 namespace net_speed_indicator.Utilities
 {
@@ -88,12 +92,12 @@ namespace net_speed_indicator.Utilities
         }
 
         public static NetworkInterface GetActiveNetworkInterface()
-        {            
-            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();            
+        {
+            NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
             NetworkInterface activeAdapter = interfaces.FirstOrDefault(x => x.NetworkInterfaceType != NetworkInterfaceType.Loopback
                     && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel
                     && x.OperationalStatus == OperationalStatus.Up
-                    && x.Name.StartsWith("vEthernet") == false);            
+                    && x.Name.StartsWith("vEthernet") == false);
             return activeAdapter;
         }
 
@@ -126,6 +130,20 @@ namespace net_speed_indicator.Utilities
         public static string GetExecutablePath()
         {
             return Process.GetCurrentProcess().MainModule.FileName;
+        }
+
+        public static SystemAppTheme GetSystemDefaultAppTheme()
+        {
+            try
+            {
+                RegistryKey registryKey = Registry.CurrentUser.OpenSubKey("Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", true);
+                int value = (int)registryKey.GetValue("AppsUseLightTheme");
+                return (SystemAppTheme)value;
+            }
+            catch
+            {
+                return SystemAppTheme.Light;
+            }
         }
     }
 }

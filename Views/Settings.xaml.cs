@@ -1,25 +1,29 @@
-﻿using MahApps.Metro.Controls;
-using net_speed_indicator.Models;
+﻿using net_speed_indicator.Models;
 using System.ComponentModel;
 using System.Net.NetworkInformation;
 using net_speed_indicator.Utilities;
+using ControlzEx.Theming;
+using System.Windows;
 
 namespace net_speed_indicator.Views
 {
     /// <summary>
     /// Interaction logic for Settings.xaml
     /// </summary>
-    public partial class Settings : MetroWindow
+    public partial class Settings : Window
     {
         private SettingsViewModel Context => DataContext as SettingsViewModel;
 
         public Settings()
         {
             InitializeComponent();
+        }
+        private void MetroWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        {
             InitializeContext();
             InitializeView();
+            AppData.Instance.PropertyChanged += AppData_PropertyChanged;
         }
-
         private void InitializeContext()
         {
             NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
@@ -28,15 +32,28 @@ namespace net_speed_indicator.Views
             DataContext = new SettingsViewModel(interfaces, AppData.Instance, Constants.InitialTab, dataSpeedOptions);
             Context.PropertyChanged += DataPropertyChanged;
         }
+
+        private void AppData_PropertyChanged(object sender, PropertyChangedEventArgs e)
+        {
+            switch (e.PropertyName)
+            {
+                case nameof(AppData.AppTheme):
+                    ApplyAppTheme();
+                    return;
+                default:
+                    break;
+            }
+        }
         private void InitializeView()
         {
             SetActiveTabInView();
+            ApplyAppTheme();
         }
         private void DataPropertyChanged(object sender, PropertyChangedEventArgs e)
         {
             switch (e.PropertyName)
             {
-                case "ActiveTab":
+                case nameof(Context.ActiveTab):
                     SetActiveTabInView();
                     return;
                 default:
@@ -76,7 +93,26 @@ namespace net_speed_indicator.Views
                 default:
                     break;
             };
+        }
 
+        private void ApplyAppTheme()
+        {
+            switch (Context.AppData.AppTheme)
+            {
+                case 0:
+                    SystemAppTheme theme = CommonUtils.GetSystemDefaultAppTheme();
+                    _ = theme == SystemAppTheme.Light
+                        ? ThemeManager.Current.ChangeTheme(this, "Light.Blue")
+                        : ThemeManager.Current.ChangeTheme(this, "Dark.Blue");
+                    break;
+                case 1:
+                    _ = ThemeManager.Current.ChangeTheme(this, "Light.Blue");
+                    break;
+                case 2:
+                    ThemeManager.Current.ChangeTheme(this, "Dark.Blue");
+                    break;
+                default: break;
+            }
         }
     }
 }
