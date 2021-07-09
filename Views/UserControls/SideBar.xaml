@@ -13,39 +13,48 @@
         <ToggleButton
             x:Name="ToggleBtn_General"
             Height="48"
+            MinWidth="180"
             Padding="16,0,16,0"
             HorizontalAlignment="Stretch"
+            FontSize="14"
             HorizontalContentAlignment="Left"
             BorderThickness="0"
             Click="ToggleBtn_Checked"
-            Content="General" />
+            Content="General"
+            Style="{DynamicResource MahApps.Styles.ToggleButton.ToolBar}" />
         <ToggleButton
             x:Name="ToggleBtn_Appearance"
             Height="48"
+            MinWidth="180"
             Padding="16,0,16,0"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Left"
             BorderThickness="0"
             Click="ToggleBtn_Checked"
-            Content="Appearance" />
+            Content="Appearance"
+            Style="{DynamicResource MahApps.Styles.ToggleButton.ToolBar}" />
         <ToggleButton
             x:Name="ToggleBtn_NetworkInterface"
             Height="48"
             Padding="16,0,16,0"
             HorizontalAlignment="Stretch"
+            MinWidth="180"
             HorizontalContentAlignment="Left"
             BorderThickness="0"
             Click="ToggleBtn_Checked"
-            Content="Network Adapter" />
+            Content="Network Adapter"
+            Style="{DynamicResource MahApps.Styles.ToggleButton.ToolBar}" />
         <ToggleButton
             x:Name="ToggleBtn_Theme"
             Height="48"
             Padding="16,0,16,0"
+            MinWidth="180"
             HorizontalAlignment="Stretch"
             HorizontalContentAlignment="Left"
             BorderThickness="0"
             Click="ToggleBtn_Checked"
-            Content="Theme" />
+            Content="Theme"
+            Style="{DynamicResource MahApps.Styles.ToggleButton.ToolBar}" />
         <ToggleButton
             x:Name="ToggleBtn_About"
             Height="48"
@@ -54,6 +63,8 @@
             HorizontalContentAlignment="Left"
             BorderThickness="0,0,0,0"
             Click="ToggleBtn_Checked"
-            Content="About" />
+            MinWidth="180"
+            Content="About"
+            Style="{DynamicResource MahApps.Styles.ToggleButton.ToolBar}" />
     </StackPanel>
 </UserControl>

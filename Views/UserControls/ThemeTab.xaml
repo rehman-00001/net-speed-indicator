@@ -24,7 +24,7 @@
             Margin="4,24,0,0"
             FontSize="16"
             FontWeight="Regular"
-            Text="Select a theme color" />
+            Text="Select a theme mode" />
         <StackPanel Margin="72,8,0,0" HorizontalAlignment="Left">
             <RadioButton
                 x:Name="RadioButton_LightTheme"

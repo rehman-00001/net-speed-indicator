@@ -4,13 +4,14 @@ using System.Net.NetworkInformation;
 using net_speed_indicator.Utilities;
 using ControlzEx.Theming;
 using System.Windows;
+using MahApps.Metro.Controls;
 
 namespace net_speed_indicator.Views
 {
     /// <summary>
     /// Interaction logic for Settings.xaml
     /// </summary>
-    public partial class Settings : Window
+    public partial class Settings : MetroWindow
     {
         private SettingsViewModel Context => DataContext as SettingsViewModel;
 
@@ -63,7 +64,7 @@ namespace net_speed_indicator.Views
         private void SetActiveTabInView()
         {
             MainView.Children.Clear();
-            switch (Context.ActiveTab)
+           switch (Context.ActiveTab)
             {
                 case SettingsTab.General:
                     {

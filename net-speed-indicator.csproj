@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net5.0-windows</TargetFramework>
+    <TargetFramework>net5.0-windows10.0.18362.0</TargetFramework>
     <RootNamespace>net_speed_indicator</RootNamespace>
     <UseWPF>true</UseWPF>
     <StartupObject></StartupObject>
@@ -29,10 +29,9 @@
     <Folder Include="Views\" />
   </ItemGroup>
 
-
   <ItemGroup>
-    <PackageReference Include="HandyControl" Version="3.2.0" />
-    <PackageReference Include="MahApps.Metro" Version="2.4.7" />
+    <PackageReference Include="ModernWpfUI" Version="0.9.4" />
+    <PackageReference Include="ModernWpfUI.MahApps" Version="0.9.4" />
   </ItemGroup>
 
 

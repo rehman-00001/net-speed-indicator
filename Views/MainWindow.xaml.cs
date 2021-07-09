@@ -167,7 +167,7 @@ namespace net_speed_indicator
                     _ = ControlzEx.Theming.ThemeManager.Current.ChangeTheme(this, "Light.Blue");
                     break;
                 case 2:
-                    ControlzEx.Theming.ThemeManager.Current.ChangeTheme(this, "Dark.Blue");
+                    _ = ControlzEx.Theming.ThemeManager.Current.ChangeTheme(this, "Dark.Blue");
                     break;
                 default: break;
             }

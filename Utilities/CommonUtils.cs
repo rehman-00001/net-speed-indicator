@@ -1,7 +1,4 @@
-﻿using HandyControl.Data;
-using HandyControl.Themes;
-using HandyControl.Tools;
-using Microsoft.Win32;
+﻿using Microsoft.Win32;
 using System;
 using System.Diagnostics;
 using System.Linq;

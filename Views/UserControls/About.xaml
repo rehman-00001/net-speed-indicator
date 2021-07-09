@@ -29,7 +29,7 @@
                 Text="Net Speed Indicator" />
             <TextBlock
                 Margin="0,12,0,0"
-                FontSize="12"
+                FontSize="14"
                 FontWeight="Light"
                 Text="version 1.0" />
         </StackPanel>

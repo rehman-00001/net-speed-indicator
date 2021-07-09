@@ -13,6 +13,7 @@
     MouseDown="Window_MouseDown"
     PreviewLostKeyboardFocus="Window_PreviewLostKeyboardFocus"
     ResizeMode="NoResize"
+    ShowInTaskbar="False"
     SizeToContent="WidthAndHeight"
     WindowStartupLocation="Manual"
     WindowStyle="None"
