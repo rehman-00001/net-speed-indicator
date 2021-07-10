@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using Serilog;
+using System.Windows.Controls;
 namespace net_speed_indicator.Views.UserControls
 {
     /// <summary>
@@ -9,6 +10,7 @@ namespace net_speed_indicator.Views.UserControls
         public GeneralTab()
         {
             InitializeComponent();
+            Log.Information("{0}::GeneralTab - Instance created", GetType().Name);
         }
 
     }

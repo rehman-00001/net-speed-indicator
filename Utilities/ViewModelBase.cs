@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Collections.Generic;
+using Serilog;
 
 namespace net_speed_indicator.Utilities
 {
@@ -19,6 +20,7 @@ namespace net_speed_indicator.Utilities
             }
 
             storage = value;
+            Log.Information("{0}::SetProperty() - PropertyName: {1}, value: {2}", GetType().Name, propertyName, value);
             OnPropertyChanged(propertyName);
             return true;
         }

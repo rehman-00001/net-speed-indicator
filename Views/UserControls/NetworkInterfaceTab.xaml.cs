@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using Serilog;
+using System.Windows.Controls;
 
 namespace net_speed_indicator.Views.UserControls
 {
@@ -10,6 +11,7 @@ namespace net_speed_indicator.Views.UserControls
         public NetworkInterfaceTab()
         {
             InitializeComponent();
+            Log.Information("{0}::NetworkInterfaceTab - Instance created", GetType().Name);
         }
     }
 }

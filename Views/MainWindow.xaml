@@ -12,7 +12,6 @@
     AllowsTransparency="True"
     Loaded="Window_Widget_Loaded"
     MouseDown="Window_MouseDown"
-    PreviewLostKeyboardFocus="Window_PreviewLostKeyboardFocus"
     ResizeMode="NoResize"
     ShowInTaskbar="False"
     SizeToContent="WidthAndHeight"
@@ -22,31 +21,8 @@
     <Window.Resources>
         <utils:BooleanToMenuItemVisibilityConverter x:Key="BooleanToVisibility" />
         <utils:InvertedBooleanToMenuItemVisibilityConverter x:Key="InvertedBooleanToVisibility" />
-        <ContextMenu x:Key="MyContextMenu">
-            <MenuItem
-                Name="MenuItem_AlwaysOnTop"
-                Click="MenuItem_AlwaysOnTop_Click"
-                Header="Always on top"
-                IsCheckable="True"
-                IsChecked="{Binding Path=AppData.AlwaysOnTop, RelativeSource={RelativeSource AncestorType=Window}}" />
-            <MenuItem
-                Name="MenuItem_ChangeNetworkInterface"
-                Click="MenuItem_ChangeNetworkInterface_Click"
-                Header="Change network interface" />
-            <MenuItem
-                Name="MenuItem_Settings"
-                Click="MenuItem_Settings_Click"
-                Header="Settings" />
-            <MenuItem
-                Name="MenuItem_ResetToDefault"
-                Click="MenuItem_ResetToDefault_Click"
-                Header="Reset settings to default" />
-            <MenuItem
-                Name="MenuItem_Exit"
-                Click="MenuItem_Exit_Click"
-                Header="Exit" />
-        </ContextMenu>
     </Window.Resources>
+
     <Window.ContextMenu>
         <ContextMenu Name="MyContextMenu">
             <MenuItem
@@ -86,10 +62,6 @@
             <tb:TaskbarIcon.ContextMenu>
                 <ContextMenu>
                     <MenuItem
-                        Name="TaskBar_MenuItem_ShowHideWidget"
-                        Click="TaskBar_MenuItem_ShowHideWidget_Click"
-                        Header="Hide Indicator" />
-                    <MenuItem
                         Name="TaskBar_MenuItem_AlwaysOnTop"
                         Click="MenuItem_AlwaysOnTop_Click"
                         Header="Always on top"
@@ -121,7 +93,7 @@
             <TextBlock
                 Margin="28,0"
                 FontSize="16"
-                Text="Offline" />
+                Text="&#9888; Offline" />
         </StackPanel>
         <DockPanel
             x:Name="Panel_Speeds"

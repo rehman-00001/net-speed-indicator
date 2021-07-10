@@ -1,9 +1,7 @@
 ﻿#pragma warning disable IDE0051 // Remove unused private members
-using System;
-using System.Linq;
-using System.Collections.Generic;
 using System.Net.NetworkInformation;
 using net_speed_indicator.Utilities;
+using Serilog;
 
 namespace net_speed_indicator.Models
 {
@@ -26,11 +24,7 @@ namespace net_speed_indicator.Models
             NetworkInterfaces = networkInterfaces;
             _activeTab = activeTab;
             DataSpeedOptions = dataSpeedOptions;
-        }
-
-        public SettingsViewModel()
-        {
-            AppData = AppData.Instance;
+            Log.Information("{0}:: SettingsViewModel - Instance created", GetType().Name);
         }
     }
 }

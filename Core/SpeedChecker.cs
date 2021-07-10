@@ -1,8 +1,8 @@
 ﻿using System;
+using Serilog;
 using System.Net.NetworkInformation;
 using System.Windows.Threading;
 using net_speed_indicator.Models;
-using net_speed_indicator.Utilities;
 
 namespace net_speed_indicator
 {
@@ -11,14 +11,17 @@ namespace net_speed_indicator
         private readonly DispatcherTimer timer;
         private readonly AppData AppData = AppData.Instance;
         private INetworkSpeedListener Listener;
-        public long PreviousBytesSent = 0, PreviousBytesReceived = 0;
+        public long PreviousBytesSent, PreviousBytesReceived;
         public NetworkInterface NetworkInterface { get; set; }
 
         public SpeedChecker()
         {
-            timer = new DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
+            timer = new DispatcherTimer
+            {
+                Interval = TimeSpan.FromSeconds(1)
+            };
             timer.Tick += CheckSpeed;
+            Log.Information("{0}:: SpeedChecker() - Instance created", GetType().Name);
         }
 
         private void CheckSpeed(object sender, EventArgs e)
@@ -47,13 +50,14 @@ namespace net_speed_indicator
 
         public void Start()
         {
-            timer.Start();            
+            timer.Start();
+            Log.Information("{0}:: Start() - SpeedChecker started", GetType().Name);
         }
 
         public void Stop()
         {
             timer.Stop();
-            Console.WriteLine("Timer stopped");
+            Log.Information("{0}:: Stop() - SpeedChecker stopped", GetType().Name);
         }
     }
 }

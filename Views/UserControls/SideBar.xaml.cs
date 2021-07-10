@@ -5,6 +5,7 @@ using System.Windows.Controls.Primitives;
 using net_speed_indicator.Models;
 using System.ComponentModel;
 using net_speed_indicator.Utilities;
+using Serilog;
 
 namespace net_speed_indicator.Views.UserControls
 {
@@ -14,14 +15,13 @@ namespace net_speed_indicator.Views.UserControls
     public partial class SideBar : UserControl
     {
 
-        private SettingsViewModel Context
-        { get => DataContext as SettingsViewModel; }
+        private SettingsViewModel Context => DataContext as SettingsViewModel;
 
         public SideBar()
         {
             InitializeComponent();
-            ToggleBtn_General.IsChecked = true;
             DataContextChanged += OnDataContextSet;
+            Log.Information("{0}::SideBar() - Instance created", GetType().Name);
         }
 
         private void OnDataContextSet(object sender, DependencyPropertyChangedEventArgs e)
@@ -30,6 +30,7 @@ namespace net_speed_indicator.Views.UserControls
             {
                 Context.PropertyChanged += DataPropertyChanged;
                 DataContextChanged -= OnDataContextSet;
+                Log.Information("{0}::OnDataContextSet() - DataContext initialized", GetType().Name);
             }
         }
 
@@ -43,6 +44,7 @@ namespace net_speed_indicator.Views.UserControls
                 ToggleBtn_NetworkInterface.IsChecked = model.ActiveTab == SettingsTab.NetworkInterface;
                 ToggleBtn_Theme.IsChecked = model.ActiveTab == SettingsTab.Theme;
                 ToggleBtn_About.IsChecked = model.ActiveTab == SettingsTab.About;
+                Log.Information("{0}::DataPropertyChanged() - Active Tab changed; ActiveTab: {1}", GetType().Name, model.ActiveTab);
             }
         }
 
@@ -52,6 +54,8 @@ namespace net_speed_indicator.Views.UserControls
             if (Context != null)
             {
                 Context.ActiveTab = CommonUtils.ToggleBtnToEnum(btn.Name);
+                Log.Information("{0}::ToggleBtn_Checked() - Sidebar button: {1} clicked", GetType().Name, btn.Name);
+                Log.Information("{0}::ToggleBtn_Checked() - Active Tab changed; ActiveTab: {1}", GetType().Name, Context.ActiveTab);
             }
         }
     }

@@ -6,6 +6,7 @@ using ControlzEx.Theming;
 using System.Windows;
 using MahApps.Metro.Controls;
 using iTuner;
+using Serilog;
 
 namespace net_speed_indicator.Views
 {
@@ -19,17 +20,19 @@ namespace net_speed_indicator.Views
         public Settings()
         {
             InitializeComponent();
+            Log.Information("{0}::Settings() - Instance created", GetType().Name);
         }
-        private void MetroWindow_Loaded(object sender, System.Windows.RoutedEventArgs e)
+        private void MetroWindow_Loaded(object sender, RoutedEventArgs e)
         {
+            Log.Information("{0}::MetroWindow_Loaded()", GetType().Name);
             InitializeContext();
             InitializeView();
             AppData.Instance.PropertyChanged += AppData_PropertyChanged;
         }
         private void InitializeContext()
         {
+            Log.Information("{0}::InitializeContext()", GetType().Name);
             NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
-            NetworkInterface activeInterface = CommonUtils.GetActiveNetworkInterface();
             DataSpeedOption[] dataSpeedOptions = Constants.DataSpeedOptions;
             DataContext = new SettingsViewModel(interfaces, AppData.Instance, Constants.InitialTab, dataSpeedOptions);
             Context.PropertyChanged += DataPropertyChanged;
@@ -37,6 +40,7 @@ namespace net_speed_indicator.Views
 
         private void AppData_PropertyChanged(object sender, PropertyChangedEventArgs e)
         {
+            Log.Information("{0}::AppData_PropertyChanged() - PropertyName: ", GetType().Name, e.PropertyName);
             switch (e.PropertyName)
             {
                 case nameof(AppData.AppTheme):
@@ -51,6 +55,7 @@ namespace net_speed_indicator.Views
         }
         private void InitializeView()
         {
+            Log.Information("{0}::InitializeView()", GetType().Name);
             SetActiveTabInView();
             ApplyAppTheme();
         }
@@ -67,6 +72,7 @@ namespace net_speed_indicator.Views
         }
         private void SetActiveTabInView()
         {
+            Log.Information("{0}::SetActiveTabInView()", GetType().Name);
             MainView.Children.Clear();
            switch (Context.ActiveTab)
             {
@@ -102,6 +108,7 @@ namespace net_speed_indicator.Views
 
         private void ApplyAppTheme()
         {
+            Log.Information("{0}::ApplyAppTheme() - Theme: ", GetType().Name, Context.AppData.AppTheme);
             switch (Context.AppData.AppTheme)
             {
                 case 0:
@@ -114,17 +121,24 @@ namespace net_speed_indicator.Views
                     _ = ThemeManager.Current.ChangeTheme(this, "Light.Blue");
                     break;
                 case 2:
-                    ThemeManager.Current.ChangeTheme(this, "Dark.Blue");
+                    _ = ThemeManager.Current.ChangeTheme(this, "Dark.Blue");
                     break;
                 default: break;
             }
         }
         private void ApplySelectedNetworkInterface()
         {
+            Log.Information("{0}::ApplySelectedNetworkInterface()", GetType().Name);
+            bool autoSelect = AppData.Instance.AutoSelectInterface;
+            bool isAvailable = NetworkStatus.IsAvailable;
+            Log.Information("{0}:: AutoSelectInterface: {1} && NetworkStatus.IsAvailable: {2}", GetType().Name, autoSelect, isAvailable);
             if (AppData.Instance.AutoSelectInterface && NetworkStatus.IsAvailable)
             {
-                string id = CommonUtils.GetActiveNetworkInterface()?.Id;
+                NetworkInterface @interface = CommonUtils.GetActiveNetworkInterface();
+                string id = @interface?.Id;
+                string name = @interface?.Name;
                 AppData.Instance.NetworkInterfaceId = id;
+                Log.Information("{0}:: Active interface id: {1}", GetType().Name, name);
             }
         }
     }

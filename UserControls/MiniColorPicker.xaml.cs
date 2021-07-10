@@ -3,8 +3,8 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Media;
 using net_speed_indicator.UserControls.MiniColorPickerUtils;
+using Serilog;
 
 namespace net_speed_indicator.UserControls
 {
@@ -17,7 +17,7 @@ namespace net_speed_indicator.UserControls
         public static readonly DependencyProperty SelectedColorProperty =
             DependencyProperty.Register(
                 nameof(SelectedColor),
-                typeof(MiniColorPickerUtils.Color),
+                typeof(Color),
                 typeof(MiniColorPicker),
                 new FrameworkPropertyMetadata(
                      null,
@@ -28,19 +28,22 @@ namespace net_speed_indicator.UserControls
         {
             get => (MiniColorPickerUtils.Color)GetValue(SelectedColorProperty);
             set => SetCurrentValue(SelectedColorProperty, value);
+            
         }
-        public MiniColorPickerUtils.Color[] Colors { get; set; } = ColorsList.Colors;
+        public Color[] Colors { get; set; } = ColorsList.Colors;
         public MiniColorPicker()
         {
             InitializeComponent();
+            Log.Information("{0}:: MiniColorPicker() - InitializeComponent", GetType().Name);
         }
         public void ListView_Click(object sender, RoutedEventArgs e)
         {
             if (sender != null)
             {
-                MiniColorPickerUtils.Color color = (MiniColorPickerUtils.Color)((ListBoxItem)sender).Content;
+                Color color = (Color)((ListBoxItem)sender).Content;
                 SelectedColor = color;
                 OnColorSelected(this, new ColorArgs(color));
+                Log.Information("{0}:: ListView_Click : {1}", GetType().Name, color.Name);
             }
         }
     }

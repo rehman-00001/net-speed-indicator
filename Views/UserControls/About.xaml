@@ -54,7 +54,7 @@
                 Margin="0,16"
                 FontSize="14"
                 FontWeight="Light">
-                <Hyperlink NavigateUri="https://github.com" RequestNavigate="Hyperlink_RequestNavigate">
+                <Hyperlink NavigateUri="https://github.com" RequestNavigate="Hyperlink_SourceCode_Click">
                     Source code is available here on github!
                 </Hyperlink>
             </TextBlock>

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using net_speed_indicator.Utilities;
+using Serilog;
 
 namespace net_speed_indicator.Models
 {
@@ -124,6 +125,8 @@ namespace net_speed_indicator.Models
             Opacity = Properties.Settings.Default.Opacity;
             DataSpeedToShow = Properties.Settings.Default.DataSpeedToShow;
             AppTheme = Properties.Settings.Default.AppTheme;
+            Log.Information("{0}:: AppData - Singleton Instance created", GetType().Name);
+            Log.Information("{0}:: AppData values: {1}", GetType().Name, ToString());
         }
         public static AppData Instance => Nested.instance;
 
@@ -165,6 +168,26 @@ namespace net_speed_indicator.Models
             FontSize = DEFAULT_FONT_SIZE;
             DataSpeedToShow = DEFAULT_DATA_SPEED_OPTION;
             AppTheme = DEFAULT_APP_THEME;
+            Log.Information("{0}:: ResetAppToDefault() - AppData reset done", GetType().Name);
+        }
+
+        public override string ToString()
+        {
+            return $@"
+            AlwaysOnTop = {AlwaysOnTop};
+            RunAtStartup = {RunAtStartup};
+            AutoSelectInterface = {AutoSelectInterface};
+            RememberWidgetPosition = {RememberWidgetPosition};
+            SpeedUnit = {SpeedUnit};
+            PositionTop = {PositionTop};
+            PositionLeft = {PositionLeft};
+            BackgroundColor = {BackgroundColor};
+            ForegroundColor = {ForegroundColor};
+            Opacity = {Opacity};
+            FontSize = {FontSize};
+            DataSpeedToShow = {DataSpeedToShow};
+            AppTheme = {AppTheme};
+            ";
         }
     }
 }

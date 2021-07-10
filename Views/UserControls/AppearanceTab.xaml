@@ -79,7 +79,7 @@
                     HorizontalAlignment="Left"
                     IsSnapToTickEnabled="True"
                     Maximum="100"
-                    Minimum="35"
+                    Minimum="15"
                     TickFrequency="1"
                     Value="{Binding AppData.Opacity}" />
                 <TextBlock
@@ -122,7 +122,7 @@
                     HorizontalAlignment="Left"
                     IsSnapToTickEnabled="True"
                     Maximum="20"
-                    Minimum="10"
+                    Minimum="11"
                     TickFrequency="1"
                     Value="{Binding Path=AppData.FontSize, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
             </StackPanel>
