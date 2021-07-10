@@ -1,5 +1,7 @@
 # Net Speed Indicator
 
+Simple Windows 10 Desktop widget to monitor network's upload & download speed
+
 ## Features
 
 #### Overlay Widget
