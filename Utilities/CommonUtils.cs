@@ -1,6 +1,7 @@
 ﻿using Microsoft.Win32;
 using Serilog;
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Net.NetworkInformation;
@@ -10,6 +11,7 @@ namespace net_speed_indicator.Utilities
 {
     internal class CommonUtils
     {
+        private static readonly string[] VirtualWifiAdapterKeyTerms = { "virtual", "virtualbox", "vmware", "host-only" };
         private static readonly string[] BytesSizeSuffixes =
                    { "bytes", "KB", "MB", "GB", "TB", "PB", "EB", "ZB", "YB" };
         private static readonly string[] BitsSizeSuffixes =
@@ -89,12 +91,16 @@ namespace net_speed_indicator.Utilities
         {
             Log.Information("CommonUtils::GetActiveNetworkInterface():");
             NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
-            Log.Information("Total available network interfaces count: {0}", interfaces.Length);
-            NetworkInterface activeAdapter = interfaces.FirstOrDefault(x => x.NetworkInterfaceType != NetworkInterfaceType.Loopback
+            Log.Information("Total available network interfaces count: {0}", interfaces?.Length);
+
+            NetworkInterface activeAdapter = interfaces
+                .FirstOrDefault(x => x.NetworkInterfaceType != NetworkInterfaceType.Loopback
                     && x.NetworkInterfaceType != NetworkInterfaceType.Tunnel
                     && x.OperationalStatus == OperationalStatus.Up
-                    && x.Name.StartsWith("vEthernet") == false);
-            Log.Information("Active Network Interface - Id: {0}, Name: {1}, Type: {2}", activeAdapter.Id, activeAdapter.Name, activeAdapter.NetworkInterfaceType);
+                    && x.Name.StartsWith("vEthernet") == false
+                    && x.Description.ToLower().Split(" ").Intersect(VirtualWifiAdapterKeyTerms).Count() == 0
+                );
+            Log.Information("Active Network Interface - Id: {0}, Name: {1}, Type: {2}", activeAdapter?.Id, activeAdapter?.Name, activeAdapter?.NetworkInterfaceType);
             return activeAdapter;
         }
 
@@ -104,7 +110,7 @@ namespace net_speed_indicator.Utilities
             NetworkInterface[] interfaces = NetworkInterface.GetAllNetworkInterfaces();
             NetworkInterface @interface = interfaces.FirstOrDefault(x => x.Id.Equals(id));
             Log.Information("Total available network interfaces count: {0}", interfaces.Length);
-            Log.Information("Network Interface - Id: {0}, Name: {1}, Type: {2}", @interface.Id, @interface.Name, @interface.NetworkInterfaceType);
+            Log.Information("Network Interface - Id: {0}, Name: {1}, Type: {2}", @interface?.Id, @interface?.Name, @interface?.NetworkInterfaceType);
             return @interface;
         }
 
@@ -131,15 +137,13 @@ namespace net_speed_indicator.Utilities
                     if (value != null)
                     {
                         registryKey.DeleteValue(Constants.AppName);
-                        Log
-                           .Information("SUCCESS: Run at startup - Registry entry removed");
+                        Log.Information("SUCCESS: Run at startup - Registry entry removed");
                     }
                 }
             }
             catch (Exception e)
             {
-                Log
-                   .Error("Unable to make changes in registry:\n{0}\n{1}", e.Message, e.StackTrace);
+                Log.Error("Unable to make changes in registry:\n{0}\n{1}", e.Message, e.StackTrace);
             }
         }
 
@@ -162,8 +166,7 @@ namespace net_speed_indicator.Utilities
             }
             catch (Exception e)
             {
-                Log
-                   .Error("Unable to read app default theme from registry:\n{0}\n{1}", e.Message, e.StackTrace);
+                Log.Error("Unable to read app default theme from registry:\n{0}\n{1}", e.Message, e.StackTrace);
                 return SystemAppTheme.Light;
             }
         }
